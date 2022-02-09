@@ -3,6 +3,7 @@ const router = express.Router();
 let { User } = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+//Register
 router.post('/register', async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
@@ -36,6 +37,14 @@ router.post('/login', async (req, res) => {
   //If user esists then assign token to that user
   let accessToken = user.generateToken(); //----->Genrate Token
   res.json(accessToken);
+});
+
+//Forget Password
+router.post('/forgetpassword', async (req, res) => {
+  try {
+    const user = User.findOne({ email: req.body.email });
+    if (!user) return res.status(401).json('Email does not Exsist');
+  } catch (error) {}
 });
 
 module.exports = router;

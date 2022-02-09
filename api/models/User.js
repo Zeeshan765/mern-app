@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 //Create The Schema
 const UserSchema = new mongoose.Schema(
@@ -21,6 +22,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: 'user',
     },
+
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
   },
   { timestamps: true }
 );
@@ -37,6 +41,21 @@ UserSchema.methods.generateToken = function () {
     { _id: this._id, name: this.name, role: this.role },
     process.env.JWT_KEY
   );
+};
+
+//Generate the Reset Password Token
+UserSchema.methods.generateResetPasswordToken = function () {
+  //Generate the Reset Token
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  //Hash the Above Reset Token add the resetpasswordtoken to user Schema
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  //Assign the resetpasswordToken Expire Time
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 };
 
 //Create the Model
