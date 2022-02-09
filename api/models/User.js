@@ -44,7 +44,7 @@ UserSchema.methods.generateToken = function () {
 };
 
 //Generate the Reset Password Token
-UserSchema.methods.generateResetPasswordToken = function () {
+UserSchema.methods.getResetPasswordToken = function () {
   //Generate the Reset Token
   const resetToken = crypto.randomBytes(20).toString('hex');
 
@@ -56,6 +56,7 @@ UserSchema.methods.generateResetPasswordToken = function () {
 
   //Assign the resetpasswordToken Expire Time
   this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+  return resetToken;
 };
 
 //Create the Model
