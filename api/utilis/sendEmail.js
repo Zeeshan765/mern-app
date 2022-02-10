@@ -4,23 +4,23 @@ const sendEmail = (options) => {
   const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
-      user: process.env.EMAIL_USERNAME,
+      user: process.env.EMAIL_ADDRESS,
       pass: process.env.EMAIL_PASSWORD,
     },
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: process.env.EMAIL_ADDRESS,
     to: options.to,
     subject: options.subject,
-    html: options.text,
+    html: options.message,
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
-      console.log(err);
+      console.log('Error Ocuured ' + err);
     } else {
-      console.log(info);
+      console.log('Email Send Successfully' + info);
     }
   });
 };

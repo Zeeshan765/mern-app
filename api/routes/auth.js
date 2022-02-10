@@ -104,7 +104,7 @@ router.post('/forgetpassword', async (req, res) => {
 
   try {
     await sendEmail({
-      email: user.email,
+      to: user.email,
       subject: `Ecommerce Password Recovery`,
       message,
     });
