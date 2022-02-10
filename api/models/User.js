@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      select: false,
     },
     role: {
       type: String,
@@ -30,10 +31,15 @@ const UserSchema = new mongoose.Schema(
 );
 
 //Hash the Password
-UserSchema.methods.generateHashedPassword = async function () {
+
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
   let salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-};
+});
 
 //generate the token
 UserSchema.methods.generateToken = function () {

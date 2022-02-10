@@ -8,17 +8,18 @@ const admin = require('../middleware/admin');
 //Edit Or Update the user Profile
 router.put('/:id', authorization, async (req, res) => {
   try {
-    let user = User.findById(req.params.id);
-    (user.name = req.body.name),
-      (user.email = req.body.email),
-      (user.phone = req.body.phone),
-      (user.password = req.body.password),
-      await user.generateHashedPassword(); //---->Hash the password
-    let updateduser = await user.save();
+    const user = await User.findByIdAndUpdate(req.user.id).select('+password');
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.phone = req.body.phone;
+    user.password = req.body.password;
 
-    return res.status(200).json(updateduser);
+    await user.save();
+    let updatedToken = user.generateToken();
+
+    return res.status(200).json(updatedToken);
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json('User Does Not  Exsist');
   }
 });
 

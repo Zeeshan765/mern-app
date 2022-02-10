@@ -13,14 +13,14 @@ const sendEmail = (options) => {
     from: process.env.EMAIL_ADDRESS,
     to: options.to,
     subject: options.subject,
-    html: options.message,
+    html: options.text,
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
       console.log('Error Ocuured ' + err);
     } else {
-      console.log('Email Send Successfully' + info);
+      console.log('Email Send Successfully' + info.response);
     }
   });
 };
