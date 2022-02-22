@@ -1,7 +1,21 @@
 import React from 'react';
+import userService from '../components/services/UserService';
+const Reset = (props) => {
+  const token = props.match.params.resetToken;
 
-const Reset = () => {
   const [password, setPassword] = React.useState('');
+  const handlereset = (e) => {
+    e.preventDefault();
+    userService
+      .resetpassword(token, { password })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div className='main-div'>
@@ -20,7 +34,10 @@ const Reset = () => {
             }}
           />
           <br />
-          <button className='btn-1'> Update Password </button>
+          <button className='btn-1' onClick={handlereset}>
+            {' '}
+            Update Password{' '}
+          </button>
         </div>
       </div>
     </>

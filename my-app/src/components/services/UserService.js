@@ -25,6 +25,9 @@ class UserService extends GenericService {
 
   //Forget
   forgetpassword = (email) => this.post('auth/forgetpassword', { email });
+
+  resetpassword = (token, password) =>
+    this.put('auth/passwordreset/' + token, { password });
 }
 
 let userService = new UserService();

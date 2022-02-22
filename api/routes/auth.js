@@ -99,8 +99,8 @@ router.post('/forgetpassword', async (req, res) => {
 
   await user.save();
 
-  //const resetPasswordUrl = `http://localhost:3000/passwordreset/${resetToken}`;
-  const resetPasswordUrl = `http://localhost:3000/passwordreset/`;
+  const resetPasswordUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+  // const resetPasswordUrl = `http://localhost:3000/passwordreset`;
   const message = `
      <h1>You have requested a password reset</h1>
      <p>Please make a put request to the following link:</p>
