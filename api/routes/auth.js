@@ -8,24 +8,22 @@ const sendEmail = require('../utilis/sendEmail');
 
 //Register
 router.post('/register', async (req, res) => {
-  try {
-    let user = await User.findOne({ email: req.body.email });
-    if (user)
-      return res.status(400).json('User with Given Email Already Exsist ');
-    user = new User();
-    (user.name = req.body.name),
-      (user.email = req.body.email),
-      (user.phone = req.body.phone),
-      (user.password = req.body.password),
-      await user.save();
-    let accessToken = user.generateToken(); //----->Genrate Token
+  console.log(req.body);
 
-    const { password, ...info } = user._doc;
+  let user = await User.findOne({ email: req.body.email });
+  if (user)
+    return res.status(400).json('User with Given Email Already Exsist ');
+  user = new User();
+  (user.name = req.body.name),
+    (user.email = req.body.email),
+    (user.phone = req.body.phone),
+    (user.password = req.body.password),
+    await user.save();
+  //let accessToken = user.generateToken(); //----->Genrate Token
 
-    res.status(200).json({ ...info, accessToken });
-  } catch (error) {
-    res.status(500).json(error);
-  }
+  const { password, ...info } = user._doc;
+
+  res.status(200).json(...info);
 });
 
 //Login

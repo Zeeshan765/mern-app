@@ -1,13 +1,36 @@
 import React from 'react';
+
 import './Register.css';
-const Register = () => {
+import userService from '../../components/services/UserService';
+
+const Register = (props) => {
+  //Dummy Data
+
   const handleregister = (e) => {
     e.preventDefault();
-    console.log(fname, lname);
+    const data = {
+      name,
+      email,
+      phone,
+      password,
+    };
+
+    userService
+      .register(data)
+      .then((res) => {
+        console.log(res);
+        props.history.push('/login');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const [fname, setFname] = React.useState('');
-  const [lname, setLname] = React.useState('');
+  const [name, setName] = React.useState('');
+
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   return (
     <>
@@ -21,22 +44,9 @@ const Register = () => {
           <input
             type='text'
             className='text-1'
-            value={fname}
+            value={name}
             onChange={(e) => {
-              setFname(e.target.value);
-            }}
-          />
-          <br />
-          <label htmlFor='lname' className='label-2'>
-            Last Name
-          </label>
-          <br />
-          <input
-            type='text'
-            className='text-1'
-            value={lname}
-            onChange={(e) => {
-              setLname(e.target.value);
+              setName(e.target.value);
             }}
           />
           <br />
@@ -44,24 +54,41 @@ const Register = () => {
             Email
           </label>{' '}
           <br />
-          <input type='text' className='text-1' />
+          <input
+            type='text'
+            className='text-1'
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
           <br />
           <label htmlFor='phone' className='label-1'>
             Phone #
           </label>
           <br />
-          <input type='text' className='text-1' />
+          <input
+            type='text'
+            className='text-1'
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+            }}
+          />
           <br />
           <label htmlFor='password' className='label-2'>
             Password
           </label>
           <br />
-          <input type='password' className='text-1' /> <br />
-          <label htmlFor='cpassword' className='label-2'>
-            Confirm Password
-          </label>
+          <input
+            type='password'
+            className='text-1'
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />{' '}
           <br />
-          <input type='password' className='text-1' />
         </div>
         <button className='btn-1' onClick={handleregister}>
           {' '}
