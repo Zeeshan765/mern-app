@@ -19,11 +19,15 @@ router.post('/register', async (req, res) => {
     (user.phone = req.body.phone),
     (user.password = req.body.password),
     await user.save();
-  //let accessToken = user.generateToken(); //----->Genrate Token
+  let accessToken = user.generateToken(); //----->Genrate Token
 
-  const { password, ...info } = user._doc;
-
-  res.status(200).json(...info);
+  //const { password, ...info } = user._doc;
+  let datatoRetuen = {
+    name: user.name,
+    email: user.email,
+    accessToken: user.accessToken,
+  };
+  res.status(200).json(datatoRetuen);
 });
 
 //Login
@@ -95,8 +99,8 @@ router.post('/forgetpassword', async (req, res) => {
 
   await user.save();
 
-  const resetPasswordUrl = `http://localhost:3000/passwordreset/${resetToken}`;
-
+  //const resetPasswordUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+  const resetPasswordUrl = `http://localhost:3000/passwordreset/`;
   const message = `
      <h1>You have requested a password reset</h1>
      <p>Please make a put request to the following link:</p>

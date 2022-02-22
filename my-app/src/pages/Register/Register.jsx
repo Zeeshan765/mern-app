@@ -8,15 +8,9 @@ const Register = (props) => {
 
   const handleregister = (e) => {
     e.preventDefault();
-    const data = {
-      name,
-      email,
-      phone,
-      password,
-    };
 
     userService
-      .register(data)
+      .register(name, email, password)
       .then((res) => {
         console.log(res);
         props.history.push('/login');

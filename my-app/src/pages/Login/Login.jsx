@@ -1,16 +1,17 @@
 import React from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import './Login.css';
+import userService from '../../components/services/UserService';
 const Login = (props) => {
+  const handleforget = () => {
+    props.history.push('/forgetpassword');
+  };
+
   const handlelogin = (e) => {
     e.preventDefault();
-    const data = {
-      email,
-      password,
-    };
 
-    axios
-      .post('http://localhost:8000/api/auth/login', data)
+    userService
+      .login(email, password)
       .then((res) => {
         console.log(res);
         props.history.push('/register');
@@ -57,6 +58,10 @@ const Login = (props) => {
           <button className='btn-1' onClick={handlelogin}>
             {' '}
             Login{' '}
+          </button>
+          <button className='btn-1' onClick={handleforget}>
+            {' '}
+            Forget{' '}
           </button>
         </div>
       </div>
