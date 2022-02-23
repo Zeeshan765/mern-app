@@ -1,9 +1,9 @@
 import React from 'react';
+// import axios from 'axios';
 import userService from '../components/services/UserService';
 const Reset = (props) => {
-  const token = props.match.params.resetToken;
-
   const [password, setPassword] = React.useState('');
+  const token = props.match.params.resetToken;
   const handlereset = (e) => {
     e.preventDefault();
     userService
@@ -14,6 +14,21 @@ const Reset = (props) => {
       .catch((error) => {
         console.log(error);
       });
+
+    /* const config = {
+      header: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    axios.put(
+      `/api/auth/passwordreset/${props.match.params.resetToken}`,
+      {
+        password,
+      },
+      config
+    );
+  };*/
   };
 
   return (

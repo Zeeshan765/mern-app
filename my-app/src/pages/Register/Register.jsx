@@ -2,6 +2,7 @@ import React from 'react';
 
 import './Register.css';
 import userService from '../../components/services/UserService';
+import { toast } from 'react-toastify';
 
 const Register = (props) => {
   //Dummy Data
@@ -15,8 +16,11 @@ const Register = (props) => {
         console.log(res);
         props.history.push('/login');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data, {
+          position: toast.POSITION.TOP_LEFT,
+        });
       });
   };
 

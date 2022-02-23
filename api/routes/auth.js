@@ -129,33 +129,36 @@ router.post('/forgetpassword', async (req, res) => {
 
 //Reset Password Route
 
-router.put('/passwordreset/:resettoken', async (req, res) => {
+router.put('/passwordreset/:resetToken', async (req, res) => {
   //Hash the token which is provides in the url and generate the new token
   const resetPasswordToken = crypto
     .createHash('sha256')
-    .update(req.params.resettoken)
+    .update(req.params.resetToken)
     .digest('hex');
 
-  const user = await User.findOne({
-    resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
+  try {
+    const user = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
 
-  //Check that Token is Expired or not
-  if (!user) {
-    return res.status(400).json('Token is Expired or Invalid');
+    //Check that Token is Expired or not
+    if (!user) {
+      return res.status(400).json('Token is Expired or Invalid');
+    }
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      data: 'Password Updated Success',
+      token: user.generateToken(),
+    });
+  } catch (error) {
+    console.log(error);
   }
-  user.password = req.body.password;
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpire = undefined;
-
-  await user.save();
-
-  res.status(201).json({
-    success: true,
-    data: 'Password Updated Success',
-    token: user.generateToken(),
-  });
 });
-
 module.exports = router;

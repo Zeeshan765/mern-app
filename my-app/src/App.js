@@ -7,18 +7,21 @@ import Register from './pages/Register/Register';
 import Home from './pages/Home';
 import Forget from './pages/Forget';
 import Reset from './pages/Reset';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
       <Router>
+        <ToastContainer />
         <TopMenu />
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/login' exact component={Login} />
           <Route path='/register' exact component={Register} />
           <Route path='/forgetpassword' exact component={Forget} />
-          <Route path='/passwordreset/:resettoken' exact component={Reset} />
+          <Route path='/passwordreset/:resetToken' exact component={Reset} />
         </Switch>
       </Router>
     </>

@@ -1,5 +1,6 @@
 import React from 'react';
 import userService from '../components/services/UserService';
+import swal from 'sweetalert';
 
 const Forget = (props) => {
   const handleEmail = (e) => {
@@ -8,11 +9,20 @@ const Forget = (props) => {
     userService
       .forgetpassword(email)
       .then((res) => {
-        console.log(res);
-        props.history.push('/register');
+        swal({
+          title: 'Congratulations!',
+          text: res.message,
+          icon: 'success',
+          button: 'Check It ',
+        });
       })
       .catch((error) => {
-        console.log(error);
+        swal({
+          title: 'Oops!',
+          text: error.response.data,
+          icon: 'error',
+          button: 'ok ',
+        });
       });
   };
 
