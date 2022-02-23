@@ -5,11 +5,14 @@ import Topbar from './components/topbar/Topbar';
 import Home from './pages/Home/Home';
 import UserList from './pages/usersList/UserList';
 import Login from './pages/Login/Login';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
       <Router>
+        <ToastContainer />
         <Route path='/login' exact component={Login} />
         <Topbar />
         <div className='container'>

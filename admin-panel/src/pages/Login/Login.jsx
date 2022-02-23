@@ -7,7 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
-
+import { toast } from 'react-toastify';
+import swal from 'sweetalert';
+import userService from '../../components/services/UserService';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -93,6 +95,31 @@ const Login = (props) => {
   const classes = useStyles();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  //Handle Login
+  const handlelogin = (e) => {
+    e.preventDefault();
+    userService
+      .login(email, password)
+      .then((res) => {
+        swal({
+          title: 'Congratulations!',
+          text: 'Logged In Successfully',
+          icon: 'success',
+          button: 'Check It ',
+        });
+        console.log(res);
+
+        props.history.push('/');
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
+  };
+
   return (
     <Grid container component='main' className={classes.root}>
       <Grid item md={7} className={classes.image} />
@@ -173,17 +200,7 @@ const Login = (props) => {
               fullWidth
               variant='contained'
               color='default'
-              onClick={(e) => {
-                // userService
-                //   .login(email, password)
-                //   .then((data) => {
-                //     console.log(data);
-                //     window.location.href = "/";
-                //   })
-                //   .catch((err) => {
-                //     return alert("Password or Email incorrect");
-                //   });
-              }}
+              onClick={handlelogin}
             >
               Login
             </Button>
