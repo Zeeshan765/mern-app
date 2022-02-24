@@ -20,8 +20,8 @@ class UserService extends GenericService {
         });
     });
   //Register
-  register = (name, email, password) =>
-    this.post('auth/register', { password, email, name });
+  register = (name, email, password, phone) =>
+    this.post('auth/register', { password, email, name, phone });
 
   //Forget
   forgetpassword = (email) => this.post('auth/forgetpassword', { email });

@@ -111,13 +111,14 @@ const Register = (props) => {
     e.preventDefault();
 
     userService
-      .register(name, email, password)
+      .register(name, email, password, phone)
       .then((res) => {
         console.log(res);
+        toast.success('Registerd Successfully');
         props.history.push('/login');
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
         toast.error(err.response.data, {
           position: toast.POSITION.TOP_LEFT,
         });
@@ -184,13 +185,13 @@ const Register = (props) => {
                   color='secondary'
                   required
                   fullWidth
-                  id='email'
-                  label='Email Address'
-                  name='email'
-                  autoComplete='email'
+                  id='phone'
+                  label='Phone Number'
+                  name='phone'
+                  autoComplete='phone'
                   autoFocus
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setPhone(e.target.value);
                   }}
                 />
               </Grid>
@@ -209,17 +210,17 @@ const Register = (props) => {
                   color='secondary'
                   required
                   fullWidth
-                  id='phone'
-                  label='Phone'
-                  name='phone'
-                  value={phone}
-                  autoComplete='phone'
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  autoComplete='email'
                   autoFocus
                   onChange={(e) => {
-                    setPhone(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   className={classes.textField}

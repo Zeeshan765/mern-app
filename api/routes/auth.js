@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 let { User } = require('../models/User');
 const bcrypt = require('bcryptjs');
+const validateUser = require('../middleware/validateUser');
 
 const crypto = require('crypto');
 const sendEmail = require('../utilis/sendEmail');
 
 //Register
-router.post('/register', async (req, res) => {
+router.post('/register', validateUser, async (req, res) => {
   console.log(req.body);
 
   let user = await User.findOne({ email: req.body.email });
@@ -25,6 +26,7 @@ router.post('/register', async (req, res) => {
   let datatoRetuen = {
     name: user.name,
     email: user.email,
+    phone: user.phone,
     accessToken: user.accessToken,
   };
   res.status(200).json(datatoRetuen);

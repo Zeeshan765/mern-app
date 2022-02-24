@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const Joi = require('@hapi/joi');
 
 //Create The Schema
 const UserSchema = new mongoose.Schema(
@@ -12,9 +13,9 @@ const UserSchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    phone: {
-      type: String,
-    },
+    // phone: {
+    // type: String,
+    //},
     password: {
       type: String,
       select: false,
@@ -69,5 +70,26 @@ UserSchema.methods.getResetPasswordToken = function () {
 
 var User = mongoose.model('User', UserSchema);
 
+//Validation
+function validateUser(data) {
+  const schema = Joi.object({
+    name: Joi.string().min(3).max(18).required(),
+    email: Joi.string().email().min(3).max(30).required(),
+    phone: Joi.string().min(8).max(11).required(),
+    password: Joi.string().min(3).max(10).required(),
+  });
+  return schema.validate(data, { abortEarly: false });
+}
+
+function validateUserLogin(data) {
+  const schema = Joi.object({
+    email: Joi.string().email().min(3).max(30).required(),
+    password: Joi.string().min(3).max(10).required(),
+  });
+  return schema.validate(data, { abortEarly: false });
+}
+
 //Export
 module.exports.User = User;
+module.exports.validate = validateUser; //for sign up
+module.exports.validateUserLogin = validateUserLogin; // for login
