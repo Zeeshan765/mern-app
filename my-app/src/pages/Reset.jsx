@@ -1,9 +1,107 @@
 import React from 'react';
+
 // import axios from 'axios';
 import userService from '../components/services/UserService';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, Button } from '@material-ui/core';
+//import userService from "../services/UserService";
+
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Image from './bg.jpg';
+import { deepOrange } from '@material-ui/core/colors';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+
+    backgroundImage: `url(${Image})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+  },
+
+  background: {
+    backgroundRepeat: 'repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  mainGrid: {
+    marginTop: '20px',
+  },
+  paper: {
+    justifyContent: 'center',
+    margin: theme.spacing(8, 6),
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: 'inherit',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    //backgroundColor: theme.palette.secondary.main,
+    //color: theme.palette.getContrastText(deepOrange[500]),
+    //backgroundColor: deepOrange[500],
+    //width: 86,
+    //height: 86,
+    //marginTop: '1px',
+    //<Grid item sm={6} md={3} className={classes.background} />
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  textField: {
+    width: '95%',
+    marginLeft: '20px',
+    marginRight: 'auto',
+    paddingBottom: 0,
+    marginTop: '10px',
+    fontWeight: 500,
+  },
+  input: {
+    color: 'white',
+    //backgroundColor: '#362245',
+    height: 80,
+    fontSize: '25px',
+  },
+  button: {
+    width: '70%',
+    height: 60,
+    marginTop: '40px',
+    fontSize: '20px',
+    marginLeft: '125px',
+  },
+  checkBox: {
+    color: 'white',
+  },
+  Link: {
+    color: 'white',
+    fontSize: '18px',
+    marginTop: '40px',
+  },
+  SignText: {
+    color: 'white',
+    fontSize: '42px',
+    marginBottom: '5px',
+  },
+
+  floatingLabelFocusStyle: {
+    color: 'white',
+    fontSize: '20px',
+  },
+
+  orange: {
+    color: theme.palette.getContrastText(deepOrange[500]),
+    backgroundColor: deepOrange[500],
+  },
+}));
+
 const Reset = (props) => {
-  const [password, setPassword] = React.useState('');
-  const token = props.match.params.resetToken;
   const handlereset = (e) => {
     e.preventDefault();
     userService
@@ -31,31 +129,67 @@ const Reset = (props) => {
   };*/
   };
 
+  const classes = useStyles();
+  const [password, setPassword] = React.useState('');
+  const token = props.match.params.resetToken;
   return (
-    <>
-      <div className='main-div'>
-        <h1>Reset Password Page</h1>
-        <div className='form-data'>
-          <label htmlFor='password' className='label-1'>
-            Password
-          </label>
-          <br />
-          <input
-            type='password'
-            className='text'
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <br />
-          <button className='btn-1' onClick={handlereset}>
-            {' '}
-            Update Password{' '}
-          </button>
+    <Grid container component='main' className={classes.root}>
+      <Grid item sm={6} md={3} className={classes.background} />
+      <Grid item style={{ backgroundColor: '#180c2b' }} md={6}>
+        <div style={{ color: '#474745' }} className={classes.paper}>
+          <Typography className={classes.SignText} component='h1' variant='h5'>
+            Reset Password
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2} className={classes.mainGrid}>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  variant='filled'
+                  margin='normal'
+                  InputLabelProps={{
+                    className: classes.floatingLabelFocusStyle,
+                  }}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  required
+                  fullWidth
+                  //backgroundColor="#fcfaf7"
+                  color='secondary'
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+              </Grid>
+            </Grid>
+
+            <br />
+
+            <Button
+              justify='space-around'
+              className={classes.button}
+              fullWidth
+              variant='contained'
+              color='default'
+              onClick={handlereset}
+            >
+              Update Password
+            </Button>
+            <Grid
+              container
+              justify='space-around'
+              spacing={4}
+              style={{ padding: 20 }}
+            ></Grid>
+          </form>
         </div>
-      </div>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 

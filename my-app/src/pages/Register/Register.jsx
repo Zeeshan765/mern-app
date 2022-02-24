@@ -1,8 +1,108 @@
 import React from 'react';
-
 import './Register.css';
 import userService from '../../components/services/UserService';
 import { toast } from 'react-toastify';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, Button } from '@material-ui/core';
+//import userService from "../services/UserService";
+import Avatar from '@material-ui/core/Avatar';
+
+//import Link from '@material-ui/core/Link';
+//import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Image from './bg.jpg';
+import { deepOrange } from '@material-ui/core/colors';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+
+    backgroundImage: `url(${Image})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+  },
+
+  background: {
+    backgroundRepeat: 'repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  mainGrid: {
+    marginTop: '20px',
+  },
+  paper: {
+    justifyContent: 'center',
+    margin: theme.spacing(8, 6),
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: 'inherit',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    //backgroundColor: theme.palette.secondary.main,
+    //color: theme.palette.getContrastText(deepOrange[500]),
+    //backgroundColor: deepOrange[500],
+    //width: 86,
+    //height: 86,
+    //marginTop: '1px',
+    //<Grid item sm={6} md={3} className={classes.background} />
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  textField: {
+    width: '95%',
+    marginLeft: '20px',
+    marginRight: 'auto',
+    paddingBottom: 0,
+    marginTop: '10px',
+    fontWeight: 500,
+  },
+  input: {
+    color: 'white',
+    //backgroundColor: '#362245',
+    height: 80,
+    fontSize: '25px',
+  },
+  button: {
+    width: '70%',
+    height: 60,
+    marginTop: '40px',
+    fontSize: '20px',
+    marginLeft: '125px',
+  },
+  checkBox: {
+    color: 'white',
+  },
+  Link: {
+    color: 'white',
+    fontSize: '18px',
+    marginTop: '40px',
+  },
+  SignText: {
+    color: 'white',
+    fontSize: '42px',
+    marginBottom: '5px',
+  },
+
+  floatingLabelFocusStyle: {
+    color: 'white',
+    fontSize: '20px',
+  },
+
+  orange: {
+    color: theme.palette.getContrastText(deepOrange[500]),
+    backgroundColor: deepOrange[500],
+  },
+}));
 
 const Register = (props) => {
   //Dummy Data
@@ -23,7 +123,7 @@ const Register = (props) => {
         });
       });
   };
-
+  const classes = useStyles();
   const [name, setName] = React.useState('');
 
   const [email, setEmail] = React.useState('');
@@ -31,6 +131,146 @@ const Register = (props) => {
   const [password, setPassword] = React.useState('');
 
   return (
+    <Grid container component='main' className={classes.root}>
+      <Grid item sm={6} md={3} className={classes.background} />
+      <Grid item style={{ backgroundColor: '#180c2b' }} md={6}>
+        <div style={{ color: '#474745' }} className={classes.paper}>
+          <Avatar
+            sm={{ width: 86, height: 86 }}
+            className={classes.avatar}
+            spacing={4}
+          ></Avatar>
+          <Typography className={classes.SignText} component='h1' variant='h5'>
+            Sign up
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2} className={classes.mainGrid}>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  InputLabelProps={{
+                    className: classes.floatingLabelFocusStyle,
+                  }}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  variant='filled'
+                  margin='normal'
+                  color='secondary'
+                  required
+                  fullWidth
+                  id='name'
+                  label='UserName'
+                  name='name'
+                  autoComplete='name'
+                  autoFocus
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  InputLabelProps={{
+                    className: classes.floatingLabelFocusStyle,
+                  }}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  variant='filled'
+                  margin='normal'
+                  color='secondary'
+                  required
+                  fullWidth
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  autoComplete='email'
+                  autoFocus
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  InputLabelProps={{
+                    className: classes.floatingLabelFocusStyle,
+                  }}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  variant='filled'
+                  margin='normal'
+                  color='secondary'
+                  required
+                  fullWidth
+                  id='phone'
+                  label='Phone'
+                  name='phone'
+                  value={phone}
+                  autoComplete='phone'
+                  autoFocus
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  variant='filled'
+                  margin='normal'
+                  InputLabelProps={{
+                    className: classes.floatingLabelFocusStyle,
+                  }}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  required
+                  fullWidth
+                  //backgroundColor="#fcfaf7"
+                  color='secondary'
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+              </Grid>
+            </Grid>
+
+            <br />
+
+            <Button
+              justify='space-around'
+              className={classes.button}
+              fullWidth
+              variant='contained'
+              color='default'
+              onClick={handleregister}
+            >
+              Sign up
+            </Button>
+            <Grid
+              container
+              justify='space-around'
+              spacing={4}
+              style={{ padding: 20 }}
+            ></Grid>
+          </form>
+        </div>
+      </Grid>
+    </Grid>
+  );
+
+  /*return (
     <>
       <div className='main-div'>
         <h1>Register Page</h1>
@@ -94,7 +334,7 @@ const Register = (props) => {
         </button>
       </div>
     </>
-  );
+  );*/
 };
 
 export default Register;
