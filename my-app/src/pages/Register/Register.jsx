@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
-import { register } from '../../redux/apiCalls';
+import { Register1 } from '../../redux/apiCalls';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = () => {
+const Register = (props) => {
   //Dummy Data
   const classes = useStyles();
   const [name, setName] = React.useState('');
@@ -122,8 +122,9 @@ const Register = () => {
   //Function Call
   const handleregister = (e) => {
     e.preventDefault();
-    register(dispatch, { name, email, password, phone });
-    navigate.push('/login');
+    Register1(dispatch, { name, email, password, phone });
+    //navigate.push('/login');
+    props.history.push('/login');
     /*userService
       .register(name, email, password, phone)
       .then((res) => {
