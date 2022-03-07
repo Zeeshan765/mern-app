@@ -18,16 +18,15 @@ router.post('/register', validateUser, async (req, res) => {
   (user.name = req.body.name),
     (user.email = req.body.email),
     (user.phone = req.body.phone),
-    (user.password = req.body.password),
-    await user.save();
+    (user.password = req.body.password);
   let accessToken = user.generateToken(); //----->Genrate Token
-
+  await user.save();
   //const { password, ...info } = user._doc;
   let datatoRetuen = {
     name: user.name,
     email: user.email,
     phone: user.phone,
-    accessToken: user.accessToken,
+    accessToken: accessToken,
   };
   res.status(200).json(datatoRetuen);
 });
@@ -157,7 +156,7 @@ router.put('/passwordreset/:resetToken', async (req, res) => {
     res.status(201).json({
       success: true,
       data: 'Password Updated Success',
-      token: user.generateToken(),
+      //token: user.generateToken(),
     });
   } catch (error) {
     console.log(error);

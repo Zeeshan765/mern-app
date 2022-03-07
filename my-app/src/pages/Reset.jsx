@@ -1,5 +1,5 @@
 import React from 'react';
-
+import swal from 'sweetalert';
 // import axios from 'axios';
 import userService from '../components/services/UserService';
 import { makeStyles } from '@material-ui/core/styles';
@@ -102,18 +102,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Reset = (props) => {
-  const handlereset = (e) => {
+  /* const handlereset = (e) => {
     e.preventDefault();
     userService
-      .resetpassword(token, { password })
+      .passwordreset(token, { password })
       .then((res) => {
         console.log(res);
       })
       .catch((error) => {
         console.log(error);
-      });
+      });*/
 
-    /* const config = {
+  /* const config = {
       header: {
         'Content-Type': 'application/json',
       },
@@ -127,11 +127,33 @@ const Reset = (props) => {
       config
     );
   };*/
-  };
 
   const classes = useStyles();
   const [password, setPassword] = React.useState('');
   const token = props.match.params.resetToken;
+
+  const handlereset = (e) => {
+    e.preventDefault();
+    userService
+      .passwordreset(token, password)
+      .then((res) => {
+        swal({
+          title: 'Password Reset Successfully!',
+          text: res.message,
+          icon: 'success',
+          button: 'Ok ',
+        });
+      })
+      .catch((error) => {
+        swal({
+          title: 'Oops! Token is Expired',
+          text: error.response.data,
+          icon: 'error',
+          button: 'ok ',
+        });
+        console.log(error);
+      });
+  };
   return (
     <Grid container component='main' className={classes.root}>
       <Grid item sm={6} md={3} className={classes.background} />
