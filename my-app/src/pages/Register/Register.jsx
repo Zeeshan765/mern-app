@@ -1,7 +1,9 @@
 import React from 'react';
 import './Register.css';
-import userService from '../../components/services/UserService';
-import { toast } from 'react-toastify';
+//import userService from '../../components/services/UserService';
+//import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 //import userService from "../services/UserService";
@@ -13,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
+import { register } from '../../redux/apiCalls';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,13 +107,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = (props) => {
+const Register = () => {
   //Dummy Data
+  const classes = useStyles();
+  const [name, setName] = React.useState('');
 
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const dispatch = useDispatch();
+  const navigate = useHistory();
+  const { isFetching, error } = useSelector((state) => state.user);
+
+  //Function Call
   const handleregister = (e) => {
     e.preventDefault();
-
-    userService
+    register(dispatch, { name, email, password, phone });
+    navigate.push('/login');
+    /*userService
       .register(name, email, password, phone)
       .then((res) => {
         console.log(res);
@@ -123,14 +137,9 @@ const Register = (props) => {
           position: toast.POSITION.TOP_LEFT,
         });
       });
+  
+*/
   };
-  const classes = useStyles();
-  const [name, setName] = React.useState('');
-
-  const [email, setEmail] = React.useState('');
-  const [phone, setPhone] = React.useState('');
-  const [password, setPassword] = React.useState('');
-
   return (
     <Grid container component='main' className={classes.root}>
       <Grid item sm={6} md={3} className={classes.background} />
