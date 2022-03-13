@@ -1,8 +1,8 @@
 import React from 'react';
 import './Register.css';
 //import userService from '../../components/services/UserService';
-//import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+//import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
@@ -15,7 +15,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
-import { Register1 } from '../../redux/apiCalls';
+import apiService from '../../components/services/ApiService';
+//import { Register1 } from '../../redux/apiCalls';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,16 +116,29 @@ const Register = (props) => {
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const dispatch = useDispatch();
-  const navigate = useHistory();
-  const { isFetching, error } = useSelector((state) => state.user);
+  //const dispatch = useDispatch();
+  //const navigate = useHistory();
+  //const { isFetching, error } = useSelector((state) => state.user);
 
   //Function Call
   const handleregister = (e) => {
     e.preventDefault();
-    Register1(dispatch, { name, email, password, phone });
+    apiService
+      .post('/auth/register', { password, email, name, phone })
+      .then((res) => {
+        console.log(res.data);
+        toast.success('Registerd Successfully');
+        props.history.push('/login');
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        toast.error(err.response.data, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
+    //Register1(dispatch, { name, email, password, phone });
     //navigate.push('/login');
-    props.history.push('/login');
+    //props.history.push('/login');
     /*userService
       .register(name, email, password, phone)
       .then((res) => {

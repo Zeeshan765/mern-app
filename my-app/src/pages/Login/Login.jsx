@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
 import swal from 'sweetalert';
+import apiService from '../../components/services/ApiService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,8 +99,26 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
   const handlelogin = (e) => {
     e.preventDefault();
+    apiService
+      .post('auth/login', { email, password })
+      .then((res) => {
+        swal({
+          title: 'Congratulations!',
+          text: 'Logged In Successfully',
+          icon: 'success',
+          button: 'Ok ',
+        });
+        console.log(res);
 
-    userService
+        props.history.push('/');
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      });
+    /*userService
       .login(email, password)
       .then((res) => {
         swal({
@@ -118,6 +137,7 @@ const Login = (props) => {
           position: toast.POSITION.TOP_LEFT,
         });
       });
+      */
   };
   const classes = useStyles();
   const [email, setEmail] = React.useState('');

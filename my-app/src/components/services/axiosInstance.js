@@ -1,4 +1,4 @@
-import axios from 'axios';
+/*import axios from 'axios';
 
 let axiosInstance = axios.create({
   // baseURL: process.env.REACT_APP_BASE_URL,
@@ -22,4 +22,12 @@ const errorHandler = (error) => {
 const successHandler = (response) => {
   return response;
 };
+export default axiosInstance;
+*/
+
+import axios from 'axios';
+axios.defaults.headers.common['x-auth-token'] = localStorage.getItem('token');
+axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+let axiosInstance = axios;
 export default axiosInstance;

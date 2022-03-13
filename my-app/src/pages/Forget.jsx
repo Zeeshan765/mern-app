@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
+import apiService from '../components/services/ApiService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,7 +107,27 @@ const Forget = (props) => {
   const handleEmail = (e) => {
     e.preventDefault();
 
-    userService
+    apiService
+      .post('auth/forgetpassword', { email })
+      .then((res) => {
+        swal({
+          title: 'Congratulations!',
+          text: res.data.message,
+          icon: 'success',
+          button: 'Check Email ',
+        });
+        console.log(res.data.message);
+      })
+      .catch((error) => {
+        swal({
+          title: 'Oops!',
+          text: error.response.data,
+          icon: 'error',
+          button: 'ok ',
+        });
+      });
+
+    /*  userService
       .forgetpassword(email)
       .then((res) => {
         swal({
@@ -123,7 +144,7 @@ const Forget = (props) => {
           icon: 'error',
           button: 'ok ',
         });
-      });
+      });*/
   };
 
   const classes = useStyles();

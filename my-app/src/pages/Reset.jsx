@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from './bg.jpg';
 import { deepOrange } from '@material-ui/core/colors';
+import apiService from '../components/services/ApiService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -134,7 +135,26 @@ const Reset = (props) => {
 
   const handlereset = (e) => {
     e.preventDefault();
-    userService
+    apiService
+      .put('auth/passwordreset/' + token, { password })
+      .then((res) => {
+        swal({
+          title: 'Password Reset Successfully!',
+          text: res.data.message,
+          icon: 'success',
+          button: 'Ok ',
+        });
+      })
+      .catch((error) => {
+        swal({
+          title: 'Oops! Token is Expired',
+          text: error.response.data,
+          icon: 'error',
+          button: 'ok ',
+        });
+        console.log(error);
+      });
+    /*userService
       .passwordreset(token, password)
       .then((res) => {
         swal({
@@ -152,7 +172,7 @@ const Reset = (props) => {
           button: 'ok ',
         });
         console.log(error);
-      });
+      });*/
   };
   return (
     <Grid container component='main' className={classes.root}>
